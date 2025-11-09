@@ -10,16 +10,18 @@ conda create --name <environment_name> python>=3.12
 
 conda activate <environment_name>
 ```
-or <u>create a python env<\u> using :
+or <u>create a python env</u> using :
 
 ```python
 python=3.12 -m venv <environment_name>
+```
 
 Activate using
 
 ```bash
 .\<environment_name>\bin\activate.bat
 ```
+
 **OR** if created in linux,ubuntu or wsl use :
 
 ```bash
@@ -34,5 +36,5 @@ pip install -r requirments.txt
 
 # System Requirments 
 
-Atleast **A40 GPU** with ~ 46GB VRAM (DRAM or HBM) or <u>HIGHER<\u> 
+Atleast **A40 GPU** with ~ 46GB VRAM (DRAM or HBM) or <u>HIGHER</u> 
 

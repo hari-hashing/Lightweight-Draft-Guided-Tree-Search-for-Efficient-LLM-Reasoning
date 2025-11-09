@@ -1,0 +1,6 @@
+numpy 
+torch
+deepspeed
+transformers
+typing
+accelerate

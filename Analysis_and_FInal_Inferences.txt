@@ -1,0 +1,503 @@
+
+    ╔════════════════════════════════════════════════════════════════════════════╗
+    ║                                                                            ║
+    ║          SPECULATIVE DECODING WITH MCTS FOR LANGUAGE MODELS                ║
+    ║                                                                            ║
+    ║  Features:                                                                 ║
+    ║    • Monte Carlo Tree Search for improved token selection                  ║
+    ║    • Speculative decoding for faster inference (2-3x speedup)              ║
+    ║    • 4-bit/8-bit quantization for memory efficiency                        ║
+    ║    • NO AUTHENTICATION REQUIRED - Uses open-access models                  ║
+    ║                                                                            ║
+    ║  Requirements:                                                             ║
+    ║    • GPU with 6-8GB VRAM (recommended)                                     ║
+    ║    • CUDA 11.7+ or 12.0+                                                   ║
+    ║    • Python packages: transformers, torch, bitsandbytes, accelerate        ║
+    ║                                                                            ║
+    ╚════════════════════════════════════════════════════════════════════════════╝
+    
+
+SELECT MODE:
+================================================================================
+1. Single Comparison (Default) - Compare all 4 methods on one prompt
+2. Quantization Comparison - Test different quantization configs
+3. Batch Comparison - Test multiple prompts
+================================================================================
+
+Enter mode (1-3, default=1): 2
+
+================================================================================
+QUANTIZATION CONFIGURATION COMPARISON
+================================================================================
+
+This will test different quantization settings:
+  - Memory usage
+  - Inference speed
+  - Output quality
+================================================================================
+
+================================================================================
+Configuration 1/4: No Quantization (FP16)
+================================================================================
+
+================================================================================
+INITIALIZING SPECULATIVE DECODING WITH MCTS
+================================================================================
+Target Model: microsoft/phi-2
+Draft Model: microsoft/phi-1_5
+Device: cuda
+Quantization enabled: False
+================================================================================
+
+
+Loading microsoft/phi-2 (target model)...
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards: 100%|████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:01<00:00,  1.52it/s]
+Loading microsoft/phi-1_5 (draft model)...
+Loading tokenizer...
+
+--------------------------------------------------------------------------------
+GPU MEMORY USAGE
+--------------------------------------------------------------------------------
+GPU 0: NVIDIA A40
+  - Allocated: 7.82 GB
+  - Reserved:  7.85 GB
+  - Total:     44.35 GB
+  - Usage:     17.6%
+--------------------------------------------------------------------------------
+
+Initializing MCTS decoder...
+Initializing speculative decoder...
+
+================================================================================
+INITIALIZATION COMPLETE!
+================================================================================
+
+
+================================================================================
+COMPREHENSIVE INFERENCE COMPARISON
+================================================================================
+
+Prompt: 'The future of artificial intelligence is'
+Max generation length: 20 tokens
+
+
+--------------------------------------------------------------------------------
+Method 1: Standard Target Model (Greedy Decoding)
+--------------------------------------------------------------------------------
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Generated: The future of artificial intelligence is bright, and it is up to us to ensure that it is used for the greater good. By
+Time: 0.940s
+
+--------------------------------------------------------------------------------
+Method 2: Standard Draft Model (Greedy Decoding)
+--------------------------------------------------------------------------------
+Generated: The future of artificial intelligence is bright, and it's up to us to ensure that it's used for the greater good.
+
+
+Time: 0.266s
+
+--------------------------------------------------------------------------------
+Method 3: Target Model with MCTS (Monte Carlo Tree Search)
+--------------------------------------------------------------------------------
+Generated: The future of artificial intelligence is bright, and it is up to us to ensure that it is used for the greater good. By
+Time: 23.434s
+
+--------------------------------------------------------------------------------
+Method 4: Speculative Decoding (Draft + Target with MCTS)
+--------------------------------------------------------------------------------
+Generated: The future of artificial intelligence is bright, and it's up to all of us to embrace it and use it to create a better
+Time: 0.413s
+
+Stats:
+  - Tokens generated: 20
+  - Draft tokens: 20
+  - Accepted tokens: 20
+  - Acceptance rate: 100.00%
+  - Iterations: 5
+
+================================================================================
+PERFORMANCE SUMMARY
+================================================================================
+
+Speedup factors (vs Standard Target):
+  Draft Model: 3.53x faster
+  MCTS: 0.04x slower
+  Speculative+MCTS: 2.28x faster
+
+Inference times:
+  Standard Target: 0.940s
+  Standard Draft: 0.266s
+  MCTS Target: 23.434s
+  Speculative+MCTS: 0.413s
+
+--------------------------------------------------------------------------------
+GPU MEMORY USAGE
+--------------------------------------------------------------------------------
+GPU 0: NVIDIA A40
+  - Allocated: 7.83 GB
+  - Reserved:  7.88 GB
+  - Total:     44.35 GB
+  - Usage:     17.7%
+--------------------------------------------------------------------------------
+
+================================================================================
+
+
+================================================================================
+Configuration 2/4: 8-bit Quantization (Both)
+================================================================================
+
+================================================================================
+INITIALIZING SPECULATIVE DECODING WITH MCTS
+================================================================================
+Target Model: microsoft/phi-2
+Draft Model: microsoft/phi-1_5
+Device: cuda
+Quantization enabled: True
+  - Target: 8bit
+  - Draft: 8bit
+================================================================================
+
+Configuring 8-bit quantization for target model...
+Configuring 8-bit quantization for draft model...
+
+Loading microsoft/phi-2 (target model)...
+Loading checkpoint shards: 100%|████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:04<00:00,  2.04s/it]
+Loading microsoft/phi-1_5 (draft model)...
+Loading tokenizer...
+
+--------------------------------------------------------------------------------
+GPU MEMORY USAGE
+--------------------------------------------------------------------------------
+GPU 0: NVIDIA A40
+  - Allocated: 4.37 GB
+  - Reserved:  4.46 GB
+  - Total:     44.35 GB
+  - Usage:     9.9%
+--------------------------------------------------------------------------------
+
+Initializing MCTS decoder...
+Initializing speculative decoder...
+
+================================================================================
+INITIALIZATION COMPLETE!
+================================================================================
+
+
+================================================================================
+COMPREHENSIVE INFERENCE COMPARISON
+================================================================================
+
+Prompt: 'The future of artificial intelligence is'
+Max generation length: 20 tokens
+
+
+--------------------------------------------------------------------------------
+Method 1: Standard Target Model (Greedy Decoding)
+--------------------------------------------------------------------------------
+Generated: The future of artificial intelligence is bright, and it is up to us to ensure that it is used for the greater good. By
+Time: 1.358s
+
+--------------------------------------------------------------------------------
+Method 2: Standard Draft Model (Greedy Decoding)
+--------------------------------------------------------------------------------
+Generated: The future of artificial intelligence is bright, and it's up to us to ensure that it's used for the greater good.
+
+
+Time: 0.998s
+
+--------------------------------------------------------------------------------
+Method 3: Target Model with MCTS (Monte Carlo Tree Search)
+--------------------------------------------------------------------------------
+Generated: The future of artificial intelligence is bright, and it is up to us to ensure that it is used for the greater good. By
+Time: 112.438s
+
+--------------------------------------------------------------------------------
+Method 4: Speculative Decoding (Draft + Target with MCTS)
+--------------------------------------------------------------------------------
+Generated: The future of artificial intelligence is full potential, with the ability to do many things which were previously only possible in a science-fiction movie.
+
+Time: 4.560s
+
+Stats:
+  - Tokens generated: 23
+  - Draft tokens: 48
+  - Accepted tokens: 23
+  - Acceptance rate: 47.92%
+  - Iterations: 12
+
+================================================================================
+PERFORMANCE SUMMARY
+================================================================================
+
+Speedup factors (vs Standard Target):
+  Draft Model: 1.36x faster
+  MCTS: 0.01x slower
+  Speculative+MCTS: 0.30x faster
+
+Inference times:
+  Standard Target: 1.358s
+  Standard Draft: 0.998s
+  MCTS Target: 112.438s
+  Speculative+MCTS: 4.560s
+
+--------------------------------------------------------------------------------
+GPU MEMORY USAGE
+--------------------------------------------------------------------------------
+GPU 0: NVIDIA A40
+  - Allocated: 4.37 GB
+  - Reserved:  4.47 GB
+  - Total:     44.35 GB
+  - Usage:     9.9%
+--------------------------------------------------------------------------------
+
+================================================================================
+
+
+================================================================================
+Configuration 3/4: 4-bit Target + 8-bit Draft (Recommended)
+================================================================================
+
+================================================================================
+INITIALIZING SPECULATIVE DECODING WITH MCTS
+================================================================================
+Target Model: microsoft/phi-2
+Draft Model: microsoft/phi-1_5
+Device: cuda
+Quantization enabled: True
+  - Target: 4bit
+  - Draft: 8bit
+================================================================================
+
+Configuring 4-bit quantization for target model...
+Configuring 8-bit quantization for draft model...
+
+Loading microsoft/phi-2 (target model)...
+Loading checkpoint shards: 100%|████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:04<00:00,  2.33s/it]
+Loading microsoft/phi-1_5 (draft model)...
+Loading tokenizer...
+
+--------------------------------------------------------------------------------
+GPU MEMORY USAGE
+--------------------------------------------------------------------------------
+GPU 0: NVIDIA A40
+  - Allocated: 3.23 GB
+  - Reserved:  3.34 GB
+  - Total:     44.35 GB
+  - Usage:     7.3%
+--------------------------------------------------------------------------------
+
+Initializing MCTS decoder...
+Initializing speculative decoder...
+
+================================================================================
+INITIALIZATION COMPLETE!
+================================================================================
+
+
+================================================================================
+COMPREHENSIVE INFERENCE COMPARISON
+================================================================================
+
+Prompt: 'The future of artificial intelligence is'
+Max generation length: 20 tokens
+
+
+--------------------------------------------------------------------------------
+Method 1: Standard Target Model (Greedy Decoding)
+--------------------------------------------------------------------------------
+Generated: The future of artificial intelligence is bright, and it is up to us to ensure that it is used for the greater good. By
+Time: 0.749s
+
+--------------------------------------------------------------------------------
+Method 2: Standard Draft Model (Greedy Decoding)
+--------------------------------------------------------------------------------
+Generated: The future of artificial intelligence is bright, and it's up to us to ensure that it's used for the greater good.
+
+
+Time: 1.028s
+
+--------------------------------------------------------------------------------
+Method 3: Target Model with MCTS (Monte Carlo Tree Search)
+--------------------------------------------------------------------------------
+Generated: The future of artificial intelligence is bright, and it is up to us to ensure that it is used for the greater good. By
+Time: 60.622s
+
+--------------------------------------------------------------------------------
+Method 4: Speculative Decoding (Draft + Target with MCTS)
+--------------------------------------------------------------------------------
+Generated: The future of artificial intelligence is bright as they will be used to make daily life easier and more efficient.
+
+Time: 2.393s
+
+Stats:
+  - Tokens generated: 17
+  - Draft tokens: 28
+  - Accepted tokens: 17
+  - Acceptance rate: 60.71%
+  - Iterations: 7
+
+================================================================================
+PERFORMANCE SUMMARY
+================================================================================
+
+Speedup factors (vs Standard Target):
+  Draft Model: 0.73x faster
+  MCTS: 0.01x slower
+  Speculative+MCTS: 0.31x faster
+
+Inference times:
+  Standard Target: 0.749s
+  Standard Draft: 1.028s
+  MCTS Target: 60.622s
+  Speculative+MCTS: 2.393s
+
+--------------------------------------------------------------------------------
+GPU MEMORY USAGE
+--------------------------------------------------------------------------------
+GPU 0: NVIDIA A40
+  - Allocated: 3.23 GB
+  - Reserved:  3.40 GB
+  - Total:     44.35 GB
+  - Usage:     7.3%
+--------------------------------------------------------------------------------
+
+================================================================================
+
+
+================================================================================
+Configuration 4/4: 4-bit Quantization (Both)
+================================================================================
+
+================================================================================
+INITIALIZING SPECULATIVE DECODING WITH MCTS
+================================================================================
+Target Model: microsoft/phi-2
+Draft Model: microsoft/phi-1_5
+Device: cuda
+Quantization enabled: True
+  - Target: 4bit
+  - Draft: 4bit
+================================================================================
+
+Configuring 4-bit quantization for target model...
+Configuring 4-bit quantization for draft model...
+
+Loading microsoft/phi-2 (target model)...
+Loading checkpoint shards: 100%|████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:04<00:00,  2.36s/it]
+Loading microsoft/phi-1_5 (draft model)...
+Loading tokenizer...
+
+--------------------------------------------------------------------------------
+GPU MEMORY USAGE
+--------------------------------------------------------------------------------
+GPU 0: NVIDIA A40
+  - Allocated: 3.89 GB
+  - Reserved:  4.40 GB
+  - Total:     44.35 GB
+  - Usage:     8.8%
+--------------------------------------------------------------------------------
+
+Initializing MCTS decoder...
+Initializing speculative decoder...
+
+================================================================================
+INITIALIZATION COMPLETE!
+================================================================================
+
+
+================================================================================
+COMPREHENSIVE INFERENCE COMPARISON
+================================================================================
+
+Prompt: 'The future of artificial intelligence is'
+Max generation length: 20 tokens
+
+
+--------------------------------------------------------------------------------
+Method 1: Standard Target Model (Greedy Decoding)
+--------------------------------------------------------------------------------
+Generated: The future of artificial intelligence is bright, and it is up to us to ensure that it is used for the greater good. By
+Time: 0.747s
+
+--------------------------------------------------------------------------------
+Method 2: Standard Draft Model (Greedy Decoding)
+--------------------------------------------------------------------------------
+Generated: The future of artificial intelligence is bright, and it's up to us to ensure that it's used for the greater good.
+
+
+Time: 0.561s
+
+--------------------------------------------------------------------------------
+Method 3: Target Model with MCTS (Monte Carlo Tree Search)
+--------------------------------------------------------------------------------
+Generated: The future of artificial intelligence is bright, and it is up to us to ensure that it is used for the greater good. By
+Time: 60.699s
+
+--------------------------------------------------------------------------------
+Method 4: Speculative Decoding (Draft + Target with MCTS)
+--------------------------------------------------------------------------------
+Generated: The future of artificial intelligence is bright. AI has the potential to revolutionize the way we live and work, and to solve some of
+Time: 1.405s
+
+Stats:
+  - Tokens generated: 21
+  - Draft tokens: 28
+  - Accepted tokens: 21
+  - Acceptance rate: 75.00%
+  - Iterations: 7
+
+================================================================================
+PERFORMANCE SUMMARY
+================================================================================
+
+Speedup factors (vs Standard Target):
+  Draft Model: 1.33x faster
+  MCTS: 0.01x slower
+  Speculative+MCTS: 0.53x faster
+
+Inference times:
+  Standard Target: 0.747s
+  Standard Draft: 0.561s
+  MCTS Target: 60.699s
+  Speculative+MCTS: 1.405s
+
+--------------------------------------------------------------------------------
+GPU MEMORY USAGE
+--------------------------------------------------------------------------------
+GPU 0: NVIDIA A40
+  - Allocated: 3.89 GB
+  - Reserved:  4.41 GB
+  - Total:     44.35 GB
+  - Usage:     8.8%
+--------------------------------------------------------------------------------
+
+================================================================================
+
+
+
+================================================================================
+QUANTIZATION COMPARISON SUMMARY
+================================================================================
+
+Speculative+MCTS Performance:
+--------------------------------------------------------------------------------
+No Quantization (FP16)                   0.413s
+8-bit Quantization (Both)                4.560s
+4-bit Target + 8-bit Draft (Recommended) 2.393s
+4-bit Quantization (Both)                1.405s
+
+================================================================================
+Recommendation: Use '4-bit Target + 8-bit Draft' for best balance
+================================================================================
+
+================================================================================
+THANK YOU FOR USING SPECULATIVE DECODING WITH MCTS!
+================================================================================
+
+For more information:
+  - Speculative Decoding: https://arxiv.org/abs/2211.17192
+  - MCTS: https://en.wikipedia.org/wiki/Monte_Carlo_tree_search
+  - Model Quantization: https://huggingface.co/blog/hf-bitsandbytes-integration
+================================================================================

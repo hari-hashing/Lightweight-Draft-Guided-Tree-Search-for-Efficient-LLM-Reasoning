@@ -1,31 +1,3 @@
-
-    ╔════════════════════════════════════════════════════════════════════════════╗
-    ║                                                                            ║
-    ║          SPECULATIVE DECODING WITH MCTS FOR LANGUAGE MODELS                ║
-    ║                                                                            ║
-    ║  Features:                                                                 ║
-    ║    • Monte Carlo Tree Search for improved token selection                  ║
-    ║    • Speculative decoding for faster inference (2-3x speedup)              ║
-    ║    • 4-bit/8-bit quantization for memory efficiency                        ║
-    ║    • NO AUTHENTICATION REQUIRED - Uses open-access models                  ║
-    ║                                                                            ║
-    ║  Requirements:                                                             ║
-    ║    • GPU with 6-8GB VRAM (recommended)                                     ║
-    ║    • CUDA 11.7+ or 12.0+                                                   ║
-    ║    • Python packages: transformers, torch, bitsandbytes, accelerate        ║
-    ║                                                                            ║
-    ╚════════════════════════════════════════════════════════════════════════════╝
-    
-
-SELECT MODE:
-================================================================================
-1. Single Comparison (Default) - Compare all 4 methods on one prompt
-2. Quantization Comparison - Test different quantization configs
-3. Batch Comparison - Test multiple prompts
-================================================================================
-
-Enter mode (1-3, default=1): 2
-
 ================================================================================
 QUANTIZATION CONFIGURATION COMPARISON
 ================================================================================
@@ -487,17 +459,3 @@ No Quantization (FP16)                   0.413s
 8-bit Quantization (Both)                4.560s
 4-bit Target + 8-bit Draft (Recommended) 2.393s
 4-bit Quantization (Both)                1.405s
-
-================================================================================
-Recommendation: Use '4-bit Target + 8-bit Draft' for best balance
-================================================================================
-
-================================================================================
-THANK YOU FOR USING SPECULATIVE DECODING WITH MCTS!
-================================================================================
-
-For more information:
-  - Speculative Decoding: https://arxiv.org/abs/2211.17192
-  - MCTS: https://en.wikipedia.org/wiki/Monte_Carlo_tree_search
-  - Model Quantization: https://huggingface.co/blog/hf-bitsandbytes-integration
-================================================================================

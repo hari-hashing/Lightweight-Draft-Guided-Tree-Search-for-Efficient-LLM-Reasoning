@@ -38,3 +38,11 @@ pip install -r requirments.txt
 
 Atleast **A40 GPU** with ~ 46GB VRAM (DRAM or HBM) or <u>HIGHER</u> 
 
+# For Code References please look at the following links:
+
+For MCTS : https://arunpatro.github.io/blog/mcts/
+
+For Speculative Decoding : https://www.datacamp.com/tutorial/speculative-decoding
+
+Please refer https://www.cluade.ai in case of any code issues
+

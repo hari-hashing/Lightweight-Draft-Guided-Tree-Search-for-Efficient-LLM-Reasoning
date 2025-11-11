@@ -735,19 +735,6 @@
 #         print("  - Phi-2 (Microsoft): microsoft/phi-2")
 #         print("  - Mistral-7B: mistralai/Mistral-7B-v0.1")
 #         print("  - TinyLlama: TinyLlama/TinyLlama-1.1B-Chat-v1.0")
-
-"""
-Speculative Decoding with Monte Carlo Tree Search for Open Source LLMs
-Implements:
-1. Speculative decoding using Phi-1.5 (1.3B) as draft and Phi-2 (2.7B) as target
-2. MCTS in place of beam search for the target model
-3. Model quantization for memory efficiency
-4. Comprehensive performance comparison
-
-Uses Microsoft's Phi models - NO AUTHENTICATION REQUIRED!
-Alternative: TinyLlama, Mistral models also available
-"""
-
 import torch
 import torch.nn.functional as F
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
@@ -757,9 +744,6 @@ from dataclasses import dataclass
 from typing import List, Tuple, Optional
 import math
 from collections import defaultdict
-import warnings
-warnings.filterwarnings('ignore')
-
 
 @dataclass
 class MCTSNode:
@@ -819,7 +803,7 @@ class MCTSNode:
 class MCTSDecoder:
     """Monte Carlo Tree Search for language model decoding"""
     
-    def __init__(self, model, tokenizer, device, n_simulations=50, c_puct=1.4, top_k=10):
+    def __init__(self, model, tokenizer, device, n_simulations=50, top_k=10):
         self.model = model
         self.tokenizer = tokenizer
         self.device = device
